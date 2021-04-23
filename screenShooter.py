@@ -24,8 +24,7 @@ def on_scroll(x, y, dx, dy):
 
 # def takeScreenshot():
 #     while True:
-#         screenshooter()
-
+#     screenshooter()
 
 def screenshooter():
     t = time.localtime()
