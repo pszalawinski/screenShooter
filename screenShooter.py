@@ -13,7 +13,7 @@ import pyautogui
 keyboard = kb.Controller()
 mouse = ms.Controller()
 
-print("Keys:\n cmd - takes screenshot\n shift - end program\n space - list all files")
+print("Keys:\n cmd - takes screenshot\n esc - end program\n shift - list all files")
 
 def keyShooter(x, y, button, pressed):
     screenshooter()
@@ -33,9 +33,9 @@ def printDirectory():
     print(dirList)
 
 def on_press(key):
-    if key == kb.Key.shift :os._exit(0) 
+    if key == kb.Key.esc :os._exit(0) 
     if key == kb.Key.cmd: screenshooter()
-    if key == kb.Key.space: printDirectory()
+    if key == kb.Key.shift: printDirectory()
 
 with kb.Listener(
         on_press=on_press) as listener:
