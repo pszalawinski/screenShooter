@@ -12,6 +12,7 @@ import pyautogui
 from fpdf import FPDF
 import glob
 from PIL import Image
+import shutil
 
 keyboard = kb.Controller()
 # mouse = ms.Controller()
@@ -53,16 +54,38 @@ def getlistdir_nohidden(path):
 
 
 def createPdfFile():
+    temp_dir = "/Users/pawel.szalawinski/Pictures/Shoots/tmp/"
+    dest_dir = "/Users/pawel.szalawinski/Pictures/Shoots/readyPDF/"
 
-    pdf1_filename = "/Users/pawel.szalawinski/Pictures/Shoots/file.pdf"
+    os.mkdir(temp_dir)
+    os.mkdir(dest_dir)
 
-    im1.save(pdf1_filename, "PDF" ,resolution=100.0, save_all=True, append_images=im_list)
+    counter = 1
+    png_path = "/Users/pawel.szalawinski/Pictures/Shoots/screen-Apr-25-2021_141913.png"
+    jpg_filename = temp_dir + "jpeg" + str(counter) + ".jpg"
+
+    pdf_filename = "jpeg" + str(counter) + ".pdf"
+
+    pdf_temp_dir = temp_dir + pdf_filename
+
+    im = Image.open(png_path)
+    rgb_im = im.convert('RGB')
+    rgb_im.save(jpg_filename)
+
+    pdf = Image.open(jpg_filename)
+    pdf.save(pdf_temp_dir)
+
+    os.replace(pdf_temp_dir, dest_dir + pdf_filename)
+    shutil.rmtree(temp_dir)
+
+    # im1.save(pdf1_filename, "PDF" ,resolution=100.0, save_all=True, append_images=im_list)
     print("PDF file created")
 
 def on_press(key):
-    if key == kb.Key.esc :os._exit(0) 
+    if key == kb.Key.esc: os._exit(0)
     if key == kb.Key.cmd: screenshooter()
-    if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
+    if key == kb.Key.shift: createPdfFile()
+    # if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
     if key == kb.Key.space: getlistdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
 
 with kb.Listener(
