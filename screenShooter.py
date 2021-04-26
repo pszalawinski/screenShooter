@@ -9,9 +9,14 @@ import pynput.keyboard as kb
 import os
 from os import listdir
 import pyautogui
+from fpdf import FPDF
+import glob
+from PIL import Image
 
 keyboard = kb.Controller()
-mouse = ms.Controller()
+# mouse = ms.Controller()
+pdfmaker = FPDF()
+path = '/Users/pawel.szalawinski/Pictures/Shoots/'
 
 print("Keys:\n cmd - takes screenshot\n esc - end program\n shift - list all files")
 
@@ -28,14 +33,37 @@ def screenshooter():
     myScreenshot = pyautogui.screenshot()
     myScreenshot.save(savepath)
 
-def printDirectory():
-    dirList = os.listdir('/Users/pawel.szalawinski/Pictures/Shoots/')
+def printDirectory(path):
+    dirList = os.listdir(path)
     print(dirList)
+
+def listdir_nohidden(path):
+    print(glob.glob(os.path.join(path, '*')))
+
+def getlistdir_nohidden(path):
+    imageList = glob.glob(os.path.join(path, '*'))
+    im_list = []
+    for image in imageList:
+        im_list.append(Image.open(image))
+
+    pdf1_filename = "/Users/pawel.szalawinski/Pictures/Shoots/file.pdf"
+
+    im1.save(pdf1_filename, "PDF" ,resolution=100.0, save_all=True, append_images=im_list)
+    print("PDF file created")
+
+
+def createPdfFile():
+
+    pdf1_filename = "/Users/pawel.szalawinski/Pictures/Shoots/file.pdf"
+
+    im1.save(pdf1_filename, "PDF" ,resolution=100.0, save_all=True, append_images=im_list)
+    print("PDF file created")
 
 def on_press(key):
     if key == kb.Key.esc :os._exit(0) 
     if key == kb.Key.cmd: screenshooter()
-    if key == kb.Key.shift: printDirectory()
+    if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
+    if key == kb.Key.space: getlistdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
 
 with kb.Listener(
         on_press=on_press) as listener:
