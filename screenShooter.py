@@ -14,6 +14,7 @@ import glob
 from PIL import Image
 import shutil
 from utils import sleeper
+from model import counter
 
 keyboard = kb.Controller()
 # mouse = ms.Controller()
@@ -23,47 +24,32 @@ path = '/Users/pawel.szalawinski/Pictures/Shoots/'
 print("Keys:\n cmd - takes screenshot\n esc - end program\n shift - list all files")
 
 path = input("provide path where operations should be made: ")
+# TODO temporary - to delete
+path = "/Users/pawel.szalawinski/Pictures/Shoots/"
 sleeper.printDots()
 
-class Counter:
-    def __init__(self, x, y):
-        self._x = x
-        self._y = y
-
-    def get_x(self):
-        return self._x
-
-    def set_x(self, x):
-        self._x = x
-
-    def get_y(self):
-        return self._y
-
-    def set_y(self, y):
-        self._y = y
-
-counter = Counter(0, path)
+licznik = counter.Counter(0, path)
 print("Ready to taking shots!")
 
 def keyShooter(x, y, button, pressed):
     screenshooter()
 
 def addCounter(obj):
-    counter = obj.get_x()
-    counter2 = counter + 1
+    licznik = obj.get_x()
+    counter2 = licznik + 1
     obj.set_x(counter2)
 
-def screenshooter(counter):
+def screenshooter(licznik):
     # t = time.localtime()
     # timestamp = time.strftime('%b-%d-%Y_%H%M%S', t)
-    click = counter.get_x()
+    click = licznik.get_x()
     # /Users/pawel.szalawinski/Pictures/Shoots/
     file_name = (str(click) + ".png")
-    path = counter.get_y()
+    path = licznik.get_y()
     savepath = path + file_name
     myScreenshot = pyautogui.screenshot()
     myScreenshot.save(savepath)
-    addCounter(counter)
+    addCounter(licznik)
 
 def printDirectory(path):
     dirList = os.listdir(path)
@@ -81,9 +67,15 @@ def getlistdir_nohidden(path):
     print("PDF file created")
 
 
-def createPdfFile(counter):
+def count_pictures(path):
+    path, dirs, files = next(os.walk(path))
+    file_count = len(files)
+    return file_count
 
-    path = counter.get_y()
+
+def createPdfFile(licznik):
+
+    path = licznik.get_y()
 
     temp_dir = path + "tmp/"
     dest_dir = path + "readyPDF/"
@@ -113,8 +105,8 @@ def createPdfFile(counter):
 
 def on_press(key):
     if key == kb.Key.esc: os._exit(0)
-    if key == kb.Key.cmd: screenshooter(counter)
-    if key == kb.Key.shift: createPdfFile(counter)
+    if key == kb.Key.cmd: screenshooter(licznik)
+    if key == kb.Key.shift: createPdfFile(licznik)
     # if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
     if key == kb.Key.space: getlistdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
 
