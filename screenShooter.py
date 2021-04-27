@@ -15,6 +15,7 @@ from PIL import Image
 import shutil
 from utils import sleeper
 from model import counter
+from PyPDF2 import PdfFileMerger
 
 keyboard = kb.Controller()
 # mouse = ms.Controller()
@@ -77,31 +78,50 @@ def createPdfFile(licznik):
 
     path = licznik.get_y()
 
+    all_files = count_pictures(path)
+
     temp_dir = path + "tmp/"
-    dest_dir = path + "readyPDF/"
+    dest_dir = path + "tmpPDF/"
 
     os.mkdir(temp_dir)
     os.mkdir(dest_dir)
+    merger = PdfFileMerger()
 
-    file_number = 1
-    png_path = path + str(file_number) + ".png"
-    jpg_filename = temp_dir + "jpeg" + str(file_number) + ".jpg"
+    i = 0
+    j = 0
+    while i < int(all_files) - 1:
+        png_path = path + str(i) + ".png"
+        jpg_filename = temp_dir + "jpeg" + str(i) + ".jpg"
+        pdf_filename = "jpeg" + str(i) + ".pdf"
+        pdf_temp_dir = temp_dir + pdf_filename
+        im = Image.open(png_path)
+        rgb_im = im.convert('RGB')
+        rgb_im.save(jpg_filename)
+        pdf = Image.open(jpg_filename)
+        pdf.save(pdf_temp_dir)
+        os.replace(pdf_temp_dir, dest_dir + pdf_filename)
+        i += 1
 
-    pdf_filename = "jpeg" + str(file_number) + ".pdf"
+    
+    pdfs = []
+    
+    while j < int(all_files) - 1:
+        pdf_filename = "jpeg" + str(j) + ".pdf"
+        pdf_temp_dir = dest_dir + pdf_filename
+        pdfs.append(pdf_temp_dir)
+        j += 1
 
-    pdf_temp_dir = temp_dir + pdf_filename
+    for pdf in pdfs:
+        merger.append(pdf)
 
-    im = Image.open(png_path)
-    rgb_im = im.convert('RGB')
-    rgb_im.save(jpg_filename)
+    merger.write(path + "result.pdf")
+    merger.close()
 
-    pdf = Image.open(jpg_filename)
-    pdf.save(pdf_temp_dir)
-
-    os.replace(pdf_temp_dir, dest_dir + pdf_filename)
     shutil.rmtree(temp_dir)
+    shutil.rmtree(dest_dir)
 
     print("PDF file created")
+    os._exit(0)
 
 def on_press(key):
     if key == kb.Key.esc: os._exit(0)
