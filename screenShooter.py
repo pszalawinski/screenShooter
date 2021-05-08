@@ -3,7 +3,7 @@ import time
 import pynput.keyboard as kb
 import pyautogui
 from utils import sleeper, merger
-from model import counter
+from model import counter, pyguiposition
 from pynput import mouse
 
 
@@ -28,11 +28,19 @@ coordinates = list()
 def on_click(x, y, button, released):
     global NumberOfMouseClicks
     print(x, y)
-    coordinates.append(x)
-    coordinates.append(y)
+    # coordinates.append(x)
+    # coordinates.append(y)
 
+    coordinates.append(pyautogui.position().x)
+    coordinates.append(pyautogui.position().y)
+
+
+
+    print(pyautogui.position().x)
+    print(pyautogui.position().y)
+    print(pyautogui.size())
     NumberOfMouseClicks += 1
-    if (NumberOfMouseClicks == 8):
+    if (NumberOfMouseClicks == 4):
         raise MyException(button)
 
 
@@ -44,9 +52,9 @@ with mouse.Listener(on_click=on_click) as listener:
 
 print("Coordinates: " + str(coordinates))
 sleeper.print_dots()
-
-licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[4], coordinates[5], coordinates[8],
-                          coordinates[9], coordinates[12], coordinates[13])
+#  TODO clean this mess
+licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[4], coordinates[5])
+positions = pyguiposition.ClickPositions(coordinates[0], coordinates[1], coordinates[4], coordinates[5])
 
 print(licznik.__dict__)
 
@@ -72,7 +80,9 @@ def screen_shooter(licznik):
     path = licznik.get_pth()
     savepath = path + file_name
 
-    myScreenshot = pyautogui.screenshot(region=(licznik.get_txl(), licznik.get_tyl(), licznik.get_bxr(), licznik.get_byl()))
+    myScreenshot = pyautogui.screenshot(
+        region=(int(positions.get_pos1x()), int(positions.get_pos1y()), int(positions.get_pos2x())-int(positions.get_pos1x()), int(positions.get_pos2y())-int(positions.get_pos1y())))
+
     myScreenshot.save(savepath)
     add_counter(licznik)
 

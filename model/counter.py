@@ -1,55 +1,44 @@
 class Counter:
-    def __init__(self, licz, pth, txl, tyl, txr, tyr, bxl, byl, bxr, byr):
+    def __init__(self, licz, pth, x1, y1, x2, y2):
         self._licz = licz
         self._pth = pth
-        self._txl = txl
-        self._tyl = tyl
-        self._txr = txr
-        self._tyr = tyr
-        self._bxl = bxl
-        self._byl = byl
-        self._bxr = bxr
-        self._byr = byr
-
+        self._x1 = x1
+        self._y1 = y1
+        self._x2 = x2
+        self._y2 = y2
 
     def get_licz(self):
         return self._licz
+
     def get_pth(self):
         return self._pth
-    def get_txl(self):
-        return self._txl
-    def get_tyl(self):
-        return self._tyl
-    def get_txr(self):
-        return self._txr
-    def get_tyr(self):
-        return self._tyr
-    def get_bxl(self):
-        return self._bxl
-    def get_byl(self):
-        return self._byl
-    def get_bxr(self):
-        return self._bxr
-    def get_byr(self):
-        return self._byr
+
+    def get_x1(self):
+        return self._x1
+
+    def get_y1(self):
+        return self._y1
+
+    def get_x2(self):
+        return self._x2
+
+    def get_y2(self):
+        return self._y2
 
     def set_licz(self, licz):
         self._licz = licz
+
     def set_pth(self, pth):
         self._pth = pth
-    def set_txl(self, txl):
-        self._txl = txl
-    def set_tyl(self, tyl):
-       self._tyl = tyl
-    def set_txr(self, txr):
-        self._txr = txr
-    def set_tyr(self, tyr):
-        self._tyr = tyr
-    def set_bxl(self, bxl):
-        self._bxl = bxl
-    def set_byl(self, byl):
-        self._byl = byl
-    def set_bxr(self, bxr):
-        self._bxr = bxr
-    def set_byr(self, byr):
-        self._byr = byr
+
+    def set_x1(self, x1):
+        self._x1 = x1
+
+    def set_y1(self, y1):
+        self._y1 = y1
+
+    def set_x2(self, x2):
+        self._x2 = x2
+
+    def set_y2(self, y2):
+        self._y2 = y2
