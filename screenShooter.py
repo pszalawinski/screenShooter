@@ -25,14 +25,14 @@ NumberOfMouseClicks = 0
 coordinates = list()
 
 
-def on_click(x, y, button, pressed):
+def on_click(x, y, button, released):
     global NumberOfMouseClicks
     print(x, y)
     coordinates.append(x)
     coordinates.append(y)
 
     NumberOfMouseClicks += 1
-    if (NumberOfMouseClicks == 4):
+    if (NumberOfMouseClicks == 8):
         raise MyException(button)
 
 
@@ -42,12 +42,11 @@ with mouse.Listener(on_click=on_click) as listener:
     except MyException as e:
         pass
 
-# print("=>Coordinates provided: \ntop left: " +str(top_left) + "\ntop right: " + str(top_right) + "\nbottom left: " + str(bottom_left) + "\nbottom right: " + str(bottom_right) )
 print("Coordinates: " + str(coordinates))
 sleeper.print_dots()
 
-licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4],
-                          coordinates[5], coordinates[6], coordinates[7])
+licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[4], coordinates[5], coordinates[8],
+                          coordinates[9], coordinates[12], coordinates[13])
 
 print(licznik.__dict__)
 
