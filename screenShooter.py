@@ -71,7 +71,8 @@ def screen_shooter(licznik):
     print("Shot taken: " + file_name)
     path = licznik.get_pth()
     savepath = path + file_name
-    myScreenshot = pyautogui.screenshot()
+
+    myScreenshot = pyautogui.screenshot(region=(licznik.get_txl(), licznik.get_tyl(), licznik.get_bxr(), licznik.get_byl()))
     myScreenshot.save(savepath)
     add_counter(licznik)
 
