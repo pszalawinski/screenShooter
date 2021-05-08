@@ -9,8 +9,8 @@ def count_pictures(path):
     file_count = len(files)
     return file_count
 
-def createPdfFile(licznik):
 
+def createPdfFile(licznik):
     path = licznik.get_pth()
 
     all_files = count_pictures(path)
@@ -39,9 +39,8 @@ def createPdfFile(licznik):
         os.replace(pdf_temp_dir, dest_dir + pdf_filename)
         i += 1
 
-    
     pdfs = []
-    
+
     while j < int(all_files) - 1:
         pdf_filename = "jpeg" + str(j) + ".pdf"
         pdf_temp_dir = dest_dir + pdf_filename

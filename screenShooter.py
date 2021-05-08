@@ -15,11 +15,10 @@ from model import counter
 
 import logging
 
-
-
 from pynput import mouse
 
-class MyException(Exception):pass
+
+class MyException(Exception): pass
 
 
 keyboard = kb.Controller()
@@ -34,6 +33,8 @@ print(">>Provide coordinates:")
 
 NumberOfMouseClicks = 0
 coordinates = list()
+
+
 def on_click(x, y, button, pressed):
     global NumberOfMouseClicks
     print(x, y)
@@ -41,8 +42,9 @@ def on_click(x, y, button, pressed):
     coordinates.append(y)
 
     NumberOfMouseClicks += 1
-    if (NumberOfMouseClicks==4):
+    if (NumberOfMouseClicks == 4):
         raise MyException(button)
+
 
 with mouse.Listener(on_click=on_click) as listener:
     try:
@@ -54,19 +56,23 @@ with mouse.Listener(on_click=on_click) as listener:
 print("Coordinates: " + str(coordinates))
 sleeper.printDots()
 
-licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4], coordinates[5], coordinates[6], coordinates[7])
+licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4],
+                          coordinates[5], coordinates[6], coordinates[7])
 
 print(licznik.__dict__)
 
 print("Ready to taking shots!")
 
+
 def keyShooter(x, y, button, pressed):
     screenshooter()
+
 
 def addCounter(obj):
     licznik = obj.get_licz()
     counter2 = licznik + 1
     obj.set_licz(counter2)
+
 
 def screenshooter(licznik):
     # t = time.localtime()
@@ -81,16 +87,19 @@ def screenshooter(licznik):
     myScreenshot.save(savepath)
     addCounter(licznik)
 
+
 def exit():
     print("Bye bye")
     time.sleep(0.3)
     os._exit(0)
+
 
 def on_press(key):
     if key == kb.Key.esc: exit()
     if key == kb.Key.cmd: screenshooter(licznik)
     if key == kb.Key.shift: merger.createPdfFile(licznik)
     # if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
+
 
 with kb.Listener(
         on_press=on_press) as listener:
