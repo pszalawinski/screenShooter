@@ -10,9 +10,9 @@ from pynput import mouse
 class MyException(Exception): pass
 
 
-keyboard = kb.Controller()
+print("Keys:\n Cmd - takes screenshot\n Right ctrl - end program\n Shift - creates pdf from taken shots")
 
-print("Keys:\n cmd - takes screenshot\n esc - end program\n Shift - creates pdf from taken shots")
+keyboard = kb.Controller()
 
 path = input("provide path where operations should be made: ")
 #  TODO temporary - to delete
@@ -68,7 +68,6 @@ def screen_shooter(licznik):
     # t = time.localtime()
     # timestamp = time.strftime('%b-%d-%Y_%H%M%S', t)
     click = licznik.get_licz()
-    # /Users/pawel.szalawinski/Pictures/Shoots/
     file_name = (str(click) + ".png")
     print("Shot taken: " + file_name)
     path = licznik.get_pth()
@@ -85,10 +84,10 @@ def exit():
 
 
 def on_press(key):
-    if key == kb.Key.esc: exit()
+    if key == kb.Key.ctrl: exit()
     if key == kb.Key.cmd: screen_shooter(licznik)
     if key == kb.Key.shift: merger.createPdfFile(licznik)
-    # if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
+    # if key == kb.Key.ctrl.a: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
 
 
 with kb.Listener(
