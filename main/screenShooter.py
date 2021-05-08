@@ -1,20 +1,9 @@
-import fnmatch
 import os
-import shutil
 import time
-import tkinter as tk
-from tkinter import filedialog
 import pynput.keyboard as kb
-from os import listdir
 import pyautogui
-from fpdf import FPDF
-import glob
-from PIL import Image
 from utils import sleeper, merger
 from model import counter
-
-import logging
-
 from pynput import mouse
 
 
@@ -28,6 +17,7 @@ print("Keys:\n cmd - takes screenshot\n esc - end program\n Shift - creates pdf 
 path = input("provide path where operations should be made: ")
 #  TODO temporary - to delete
 path = "/Users/pawel.szalawinski/Pictures/Shoots/"
+
 print(">>Path recorded")
 print(">>Provide coordinates:")
 
@@ -54,7 +44,7 @@ with mouse.Listener(on_click=on_click) as listener:
 
 # print("=>Coordinates provided: \ntop left: " +str(top_left) + "\ntop right: " + str(top_right) + "\nbottom left: " + str(bottom_left) + "\nbottom right: " + str(bottom_right) )
 print("Coordinates: " + str(coordinates))
-sleeper.printDots()
+sleeper.print_dots()
 
 licznik = counter.Counter(0, path, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4],
                           coordinates[5], coordinates[6], coordinates[7])
@@ -64,17 +54,17 @@ print(licznik.__dict__)
 print("Ready to taking shots!")
 
 
-def keyShooter(x, y, button, pressed):
-    screenshooter()
+def key_shooter(x, y, button, pressed):
+    screen_shooter()
 
 
-def addCounter(obj):
+def add_counter(obj):
     licznik = obj.get_licz()
     counter2 = licznik + 1
     obj.set_licz(counter2)
 
 
-def screenshooter(licznik):
+def screen_shooter(licznik):
     # t = time.localtime()
     # timestamp = time.strftime('%b-%d-%Y_%H%M%S', t)
     click = licznik.get_licz()
@@ -85,7 +75,7 @@ def screenshooter(licznik):
     savepath = path + file_name
     myScreenshot = pyautogui.screenshot()
     myScreenshot.save(savepath)
-    addCounter(licznik)
+    add_counter(licznik)
 
 
 def exit():
@@ -96,7 +86,7 @@ def exit():
 
 def on_press(key):
     if key == kb.Key.esc: exit()
-    if key == kb.Key.cmd: screenshooter(licznik)
+    if key == kb.Key.cmd: screen_shooter(licznik)
     if key == kb.Key.shift: merger.createPdfFile(licznik)
     # if key == kb.Key.shift: listdir_nohidden('/Users/pawel.szalawinski/Pictures/Shoots/')
 

@@ -1,2 +1,3 @@
-add separate class with mouse clicker and separate with keyboard clicker for screenshots
-mapper every click is stored in map and then every click from map need to be saved in Counter
+- add separate class with mouse clicker and separate with keyboard clicker for screenshots
+- mapper every click is stored in map and then every click from map need to be saved in Counter
+- add separate folder to collect the screenshots and then give decision to user if it should be deleted or kept (and decision to keep jpegs or png)
