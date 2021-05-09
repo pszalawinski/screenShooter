@@ -17,11 +17,11 @@ print("Controls: Keys:\n Cmd - takes screenshot\n "
 keyboard = kb.Controller()
 
 path = input("provide path where operations should be made: ")
+# TODO add checker if path ends with / or it should be added
 
 print(">>Path recorded: " + str(path))
 print("size of your main screen: ")
 print(pyautogui.size())
-
 print("Click in left top corner and then in right bottom corner of desired screen area:")
 
 NumberOfMouseClicks = 0
@@ -45,10 +45,16 @@ with mouse.Listener(on_click=on_click) as listener:
     except MyException as e:
         pass
 
+print("Creating folder for PNG files")
+pngPath = path + "/png/"
+os.mkdir(pngPath)
+
 counterHolder = counter.Counter(0, path)
 positions = pyguiposition.ClickPositions(coordinates[0], coordinates[1], coordinates[4], coordinates[5])
 sleeper.print_dots()
 print("Positions provided and saved")
+
+
 
 print("Ready to taking shots!")
 
@@ -63,8 +69,8 @@ def screen_shooter(licznik):
     click = counterHolder.get_licz()
     file_name = (str(click) + ".png")
     print("Shot taken: " + file_name)
-    path = counterHolder.get_pth()
-    savepath = path + file_name
+    # path = counterHolder.get_pth()
+    savepath = pngPath + file_name
 
     myScreenshot = pyautogui.screenshot(
         region=(
@@ -85,7 +91,7 @@ def exit():
 def on_press(key):
     if key == kb.Key.ctrl: exit()
     if key == kb.Key.cmd: screen_shooter(counterHolder)
-    if key == kb.Key.shift: merger.createPdfFile(counterHolder)
+    if key == kb.Key.shift: merger.createPdfFile(counterHolder, pngPath)
 
 
 with kb.Listener(

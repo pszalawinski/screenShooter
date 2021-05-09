@@ -10,16 +10,16 @@ def count_pictures(path):
     return file_count
 
 
-def createPdfFile(licznik):
+def createPdfFile(licznik, pngPath):
     path = licznik.get_pth()
 
-    all_files = count_pictures(path)
+    all_files = count_pictures(pngPath)
 
-    temp_dir = path + "tmp/"
+    jpeg = path + "jpeg/"
     dest_dir = path + "tmpPDF/"
 
     print("making temp_dir for jpegs")
-    os.mkdir(temp_dir)
+    os.mkdir(jpeg)
     print("making temp_dir for pdfs")
     os.mkdir(dest_dir)
     merger = PdfFileMerger()
@@ -27,10 +27,10 @@ def createPdfFile(licznik):
     i = 0
     j = 0
     while i < int(all_files) - 1:
-        png_path = path + str(i) + ".png"
-        jpg_filename = temp_dir + "jpeg" + str(i) + ".jpg"
+        png_path = pngPath + str(i) + ".png"
+        jpg_filename = jpeg + "jpeg" + str(i) + ".jpg"
         pdf_filename = "jpeg" + str(i) + ".pdf"
-        pdf_temp_dir = temp_dir + pdf_filename
+        pdf_temp_dir = jpeg + pdf_filename
         im = Image.open(png_path)
         rgb_im = im.convert('RGB')
         rgb_im.save(jpg_filename)
@@ -54,9 +54,25 @@ def createPdfFile(licznik):
     merger.write(path + "merged.pdf")
     merger.close()
 
-    print("deleting temp_dirs")
-    shutil.rmtree(temp_dir)
+    print("Deleting pdf temporary directory")
     shutil.rmtree(dest_dir)
-
     print("PDF file created")
+
+    answer = input("Do you want to keep jpg or png screenshots?"
+                   "\n (j) keep jpgs, (p) keep pngs, (pj) keep jpegs and pngs, (a) remove all: \n")
+    if answer == "j":
+        shutil.rmtree(pngPath)
+        print("Pngs deleted, jpegs kept")
+    if answer == "p":
+        shutil.rmtree(jpeg)
+        print("Jpegs deleted, pngs kept")
+    if answer == "a":
+        shutil.rmtree(jpeg)
+        shutil.rmtree(pngPath)
+        print("All taken shoots removed")
+    if answer == "pj":
+        print("All shots taken saved")
+    # TODO handle wrong answer
+
+    # TODO add option to start again or exit
     os._exit(0)
