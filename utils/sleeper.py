@@ -1,6 +1,7 @@
-import time 
+import time
 
-def printDots():
+
+def print_dots():
     time.sleep(0.4)
     print(".")
     time.sleep(0.4)
