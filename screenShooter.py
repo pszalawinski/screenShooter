@@ -19,7 +19,10 @@ path = input("provide path where operations should be made: ")
 path = "/Users/pawel.szalawinski/Pictures/Shoots/"
 
 print(">>Path recorded")
-print(">>Provide coordinates:")
+print("size of your main screen: ")
+print(pyautogui.size())
+
+print("Click in left top corner and then in right bottom corner of desired screen area:")
 
 NumberOfMouseClicks = 0
 coordinates = list()
@@ -38,7 +41,7 @@ def on_click(x, y, button, released):
 
     print(pyautogui.position().x)
     print(pyautogui.position().y)
-    print(pyautogui.size())
+
     NumberOfMouseClicks += 1
     if (NumberOfMouseClicks == 4):
         raise MyException(button)
