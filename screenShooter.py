@@ -7,7 +7,8 @@ from model import counter, pyguiposition
 from pynput import mouse
 
 
-class MyException(Exception): pass
+class MyException(Exception):
+    pass
 
 
 print("Controls: Keys:\n Cmd - takes screenshot\n "
@@ -19,8 +20,17 @@ keyboard = kb.Controller()
 path = input("provide path where operations should be made: ")
 # TODO add checker if path ends with / or it should be added
 
+confirmation = input("Do you confirm provided path? \n ---->>>" + path + "\n[y] = yes, [n] = no\n")
+
+if confirmation == "n":
+    path = input("Provide new path: \n")
+
+    if path == "":
+        print("Path for files not provided, closing program.\n")
+        exit()
+
 print(">>Path recorded: " + str(path))
-print("size of your main screen: ")
+print("Size of your main screen: ")
 print(pyautogui.size())
 print("Click in left top corner and then in right bottom corner of desired screen area:")
 
@@ -39,11 +49,13 @@ def on_click(x, y, button, pressed):
         raise MyException(button)
 
 
-with mouse.Listener(on_click=on_click) as listener:
+with mouse.Listener(
+        on_click=on_click) as listener:
     try:
         listener.join()
     except MyException as e:
         pass
+
 
 print("Creating folder for PNG files")
 pngPath = path + "/png/"
@@ -54,14 +66,12 @@ positions = pyguiposition.ClickPositions(coordinates[0], coordinates[1], coordin
 sleeper.print_dots()
 print("Positions provided and saved")
 
-
-
 print("Ready to taking shots!")
 
 
 def add_counter(obj):
-    counterHolder = obj.get_licz()
-    counter2 = counterHolder + 1
+    counter_holder = obj.get_licz()
+    counter2 = counter_holder + 1
     obj.set_licz(counter2)
 
 
