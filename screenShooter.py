@@ -11,7 +11,7 @@ class MyException(Exception):
     pass
 
 
-print("Controls: Keys:\n Cmd - takes screenshot\n "
+print("Controls: Keys:\n Cmd(mac) or Alt (win/linux) - takes screenshot\n "
       "Right ctrl - ends program\n Shift - creates pdf from taken shots"
       " \nAvailable after providing necessary data")
 
@@ -79,7 +79,6 @@ def screen_shooter(licznik):
     click = counterHolder.get_licz()
     file_name = (str(click) + ".png")
     print("Shot taken: " + file_name)
-    # path = counterHolder.get_pth()
     savepath = pngPath + file_name
 
     myScreenshot = pyautogui.screenshot(
@@ -101,6 +100,7 @@ def exit():
 def on_press(key):
     if key == kb.Key.ctrl: exit()
     if key == kb.Key.cmd: screen_shooter(counterHolder)
+    if key == kb.Key.alt: screen_shooter(counterHolder)
     if key == kb.Key.shift: merger.createPdfFile(counterHolder, pngPath)
 
 
